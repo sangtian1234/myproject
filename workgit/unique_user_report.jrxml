@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="unique_user_report" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="28f191cd-3861-4534-a615-8fe5ebae86d2">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="color" isDefault="true" mode="Opaque">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#CCCCCC" fill="Solid"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="StartDate" class="java.sql.Timestamp"/>
+	<parameter name="EndDate" class="java.sql.Timestamp"/>
+	<queryString>
+		<![CDATA[SELECT COUNT( id ) AS number, code_name, phone,
+MONTH(pickup_time) as month_name
+FROM app_service
+WHERE status IN('F','H','J')
+AND DATE_FORMAT(pickup_time, '%Y-%m-%d')
+BETWEEN $P{StartDate} AND $P{EndDate}
+GROUP BY customer_id
+ORDER BY number DESC]]>
+	</queryString>
+	<field name="number" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="code_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="phone" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="month_name" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="1" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="35" forecolor="#FFFFFF" backcolor="#6666FF" uuid="eaa745d4-7089-48b7-9fce-4243c703ec05"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายงานจำนวนผู้ใช้บริการแบ่งเป็นกลุ่มตามผู้ใช้]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="215" height="31" forecolor="#FFFFFF" backcolor="#333333" uuid="8feed14a-af17-46c1-99d2-09a0b4899562"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายชื่อลูกค้าจากมากไปหาน้อย]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="215" y="0" width="171" height="31" forecolor="#FFFFFF" backcolor="#000000" uuid="6bf16405-51ff-492e-a9b4-875960a6f6eb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[เบอร์โทร]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="386" y="0" width="169" height="31" forecolor="#FFFFFF" backcolor="#333333" uuid="fbaa53d7-1e9c-4759-b666-372b3763c552"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[จำนวนการจอง]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="31" splitType="Stretch">
+			<frame>
+				<reportElement style="color" mode="Opaque" x="0" y="0" width="555" height="31" backcolor="#CCCCCC" uuid="caa5f0f9-b309-460f-8756-6526b51619c2"/>
+				<textField>
+					<reportElement x="0" y="0" width="215" height="31" uuid="a576d864-2c71-4382-8380-0a0d0f21930f"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{code_name}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="386" y="0" width="169" height="31" uuid="b81c1f74-3e77-4f99-b328-eb84415f738e"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{number}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="215" y="0" width="171" height="31" uuid="a99b08a8-29d4-4fc1-a37a-ca67b9f71b15"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{phone}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="1" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="32" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="386" y="0" width="169" height="32" backcolor="#CCCCCC" uuid="b9d5ed1d-6f1a-4f04-a093-c0f92ad11ba8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="215" height="32" backcolor="#CCCCCC" uuid="68d9e08e-25cf-4555-b920-2d88f32c9410"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="215" y="0" width="171" height="32" backcolor="#CCCCCC" uuid="6f4d5b14-f571-48ff-9c62-12356088b5f0"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="41" splitType="Stretch"/>
+	</summary>
+</jasperReport>
