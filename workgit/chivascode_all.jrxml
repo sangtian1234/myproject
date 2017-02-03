@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="chivascode_all" language="groovy" pageWidth="1000" pageHeight="842" columnWidth="960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a2b408f1-1725-47bf-8a1b-830698bb7f4d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="color" isDefault="true" mode="Opaque" fill="Solid">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" fill="Solid"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="report_reference" class="java.util.Collection">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT t1.name, t1.expire, t1.type,
+t1.remain_number, t1.custom_message,
+t1.discount
+FROM app_promotion t1
+WHERE ($X{IN, report_reference, report_reference})]]>
+	</queryString>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="expire" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="type" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="remain_number" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="custom_message" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="discount" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="1" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="960" height="35" forecolor="#FFFFFF" backcolor="#6666FF" uuid="288733ad-d08c-4ca6-ad7f-3ad3cdcae64b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[รายงานโปรโมชั่นโค้ดทั้งหมด]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="39" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="144" height="39" forecolor="#FFFFFF" backcolor="#666666" uuid="504e42a4-8f00-465b-a69d-7addc62430d8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROMOTION CODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="144" y="0" width="141" height="39" forecolor="#FFFFFF" backcolor="#333333" uuid="eba8e614-e503-4692-ae9b-8b45b75ff953"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EXPIRE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="285" y="0" width="120" height="39" forecolor="#FFFFFF" backcolor="#666666" uuid="a8914c31-e703-422c-9e1d-232e17c954a7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TYPE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="405" y="0" width="234" height="39" forecolor="#FFFFFF" backcolor="#333333" uuid="6045eeae-8a80-4dd6-8cdf-7b3800f3bf40"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REMAIN NUMBER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="639" y="0" width="174" height="39" forecolor="#FFFFFF" backcolor="#666666" uuid="49970a2c-490f-4a49-8733-8316ea3c076b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUSTOMER MESSAGE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="813" y="0" width="146" height="39" forecolor="#FFFFFF" backcolor="#333333" uuid="2b14ade2-33e9-4d2d-b895-7cd87a2f99ed"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DISCOUNT]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="33" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="959" height="33" backcolor="#CCCCCC" uuid="95710ea0-34eb-478d-b7bd-fb568e3dae2b"/>
+				<textField>
+					<reportElement x="0" y="0" width="144" height="33" uuid="7773098b-575a-4df4-8555-8a3b857253d4"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="144" y="0" width="141" height="33" uuid="d097d877-9ea9-4507-b3ea-2ef1c7ec9833"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{expire}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="285" y="0" width="120" height="33" uuid="08558e2f-4aef-4d78-ac1f-d4e128f3b651"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="405" y="0" width="234" height="33" uuid="063e260b-f7cf-468d-8dd2-d81ffed8ed3b"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{remain_number}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="639" y="0" width="174" height="33" uuid="92923bc8-a545-420b-94d8-bfe5b764a22b"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{custom_message}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="813" y="0" width="146" height="33" uuid="fc2a760b-c7b6-43a6-91e3-b883c0727459"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{discount}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="1" splitType="Stretch"/>
+	</columnFooter>
+</jasperReport>
