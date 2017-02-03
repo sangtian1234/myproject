@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sell_report2" language="groovy" pageWidth="1520" pageHeight="595" orientation="Landscape" columnWidth="1480" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isTitleNewPage="true" isIgnorePagination="true" uuid="1826645a-6f4d-47c2-800c-5d94e76b3847">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="color" isDefault="true" mode="Opaque">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#9999FF" fill="Solid"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="StartDate" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[("2017-01-01 00:00:00")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="EndDate" class="java.sql.Timestamp">
+		<defaultValueExpression><![CDATA[("2017-01-31 23:59:59")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="payment_type" class="java.util.Collection">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tester" class="java.lang.Boolean">
+		<property name="งานจริง" value="0"/>
+		<property name="งานทดสอบ" value="1"/>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+t1.id AS ID,
+t1.service_id ,
+t1.driver_id ,
+t1.phone ,
+t1.code_name ,
+t1.sex_id ,
+t1.source ,
+t1.destination ,
+t1.price_final ,
+t1.pickup_time ,
+t1.payment_type ,
+t1.promotion_code ,
+t1.data_source ,
+t2.id AS mt_sex_id,
+t3.id AS app_driver_id,
+t4.name AS app_promotion_id ,
+CONCAT(t3.first_name, " ", t3.last_name) AS driver_name,
+t2.description ,
+t5.name AS datasource_name , t6.username
+
+FROM app_service t1
+
+LEFT JOIN mt_sex t2 ON t2.id = t1.sex_id
+LEFT JOIN app_driver t3 ON t3.id = t1.driver_id
+LEFT JOIN app_promotion t4 ON t4.id = t1.promotion_code
+LEFT JOIN mt_datasource t5 ON t5.id = t1.data_source
+LEFT JOIN app_customer t6 ON t6.id = t1.customer_id
+
+
+WHERE t1.status IN('F','H','J')
+AND DATE_FORMAT(t1.pickup_time, '%Y-%m-%d') BETWEEN $P{StartDate} AND $P{EndDate}
+AND ($X{IN, payment_type, payment_type}) AND tester = $P{tester}
+ORDER BY pickup_time ASC]]>
+	</queryString>
+	<field name="ID" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="service_id" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="driver_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="phone" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="code_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sex_id" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="source" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="destination" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="price_final" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pickup_time" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="payment_type" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="promotion_code" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="data_source" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="mt_sex_id" class="java.lang.Integer"/>
+	<field name="app_driver_id" class="java.lang.Integer"/>
+	<field name="app_promotion_id" class="java.lang.String"/>
+	<field name="driver_name" class="java.lang.String"/>
+	<field name="description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="datasource_name" class="java.lang.String"/>
+	<field name="username" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="ID_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{ID}]]></variableExpression>
+	</variable>
+	<title>
+		<band height="10" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="55" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="1480" height="55" forecolor="#FFFFFF" backcolor="#6666FF" uuid="10b2214e-3fb6-4d06-88aa-a687b97ace69"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SELL REPORT]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="183" height="33" forecolor="#FFFFFF" backcolor="#666666" uuid="62fc288f-c9da-4374-8cb3-f2b9b9c6a426"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SERVICE ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="183" y="0" width="103" height="33" forecolor="#FFFFFF" backcolor="#333333" uuid="0279af89-89e4-4352-b4ff-2946cd4bc58a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DRIVER NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="286" y="0" width="100" height="33" forecolor="#FFFFFF" backcolor="#666666" uuid="8734852d-f9db-42c7-9428-c5c2e2e75884"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PHONE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="386" y="0" width="111" height="33" forecolor="#FFFFFF" backcolor="#333333" uuid="22d9b2d9-afb7-488f-8505-9cf7dcb279fd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUSTOMER NAME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="497" y="0" width="64" height="33" forecolor="#FFFFFF" backcolor="#666666" uuid="2b7a42cd-6a38-448e-83ba-757b6b7313fb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GENDER]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="561" y="0" width="160" height="33" forecolor="#FFFFFF" backcolor="#333333" uuid="926ad4d6-85b4-4e36-9937-0ae25ed1660f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SOURCE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="721" y="0" width="160" height="33" forecolor="#FFFFFF" backcolor="#666666" uuid="04212127-49d0-46b5-aea5-83b7478f37c1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESTINATION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="881" y="0" width="78" height="33" forecolor="#FFFFFF" backcolor="#333333" uuid="d0d80136-e478-4271-912f-ae1b0c5043d6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRICE FINAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1059" y="0" width="97" height="33" forecolor="#FFFFFF" backcolor="#333333" uuid="9401b425-24e8-404b-baeb-8e9ce0832431"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PAYMENT TYPE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="959" y="0" width="100" height="33" forecolor="#FFFFFF" backcolor="#666666" uuid="c358bee6-775a-4cee-a7e9-43039b02191b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PICKUP TIME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1156" y="0" width="107" height="33" forecolor="#FFFFFF" backcolor="#666666" uuid="b49118ec-4ac1-45dc-ab4e-cf77c16d7e43"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROMOTION CODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1263" y="0" width="97" height="33" forecolor="#FFFFFF" backcolor="#333333" uuid="d12d9d59-603b-4adc-95ee-d1c8ae4abbed"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BOOKING CHANEL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1360" y="0" width="120" height="33" forecolor="#FFFFFF" backcolor="#666666" uuid="8fb86c3f-c9bf-440f-b4a0-b03f28c73ca5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[E-MAIL]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="36" splitType="Stretch">
+			<frame>
+				<reportElement style="color" x="0" y="0" width="1480" height="34" uuid="db7ac40e-51ea-4965-87ba-648ed85ef443"/>
+				<textField isBlankWhenNull="true">
+					<reportElement x="81" y="0" width="102" height="34" uuid="4b3cba40-b2ef-44a2-aa8b-08ce61dbccef"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{service_id}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="183" y="0" width="103" height="34" uuid="8449ea7f-a56b-427c-b9ad-27bb26ee86b3"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{driver_name}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="0" y="0" width="81" height="34" uuid="4b0f8b7e-49d8-4618-a8d1-5c860f321c81"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="286" y="0" width="100" height="34" uuid="9408f4a0-f2d5-4f39-9762-22164bb80819"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{phone}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="386" y="0" width="111" height="34" uuid="22c93b07-37c5-49ae-b566-a14ff6de4841"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{code_name}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="497" y="0" width="64" height="34" uuid="1deadabc-5bf4-409b-91fa-d6cec831551c"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="561" y="0" width="160" height="34" uuid="e01e60a3-3e92-4e76-8d4c-d318dc22371b"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{source}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="721" y="0" width="160" height="34" uuid="8eeeac49-d2da-4463-ab3b-dcd86e4229ad"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{destination}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="881" y="0" width="78" height="34" uuid="63b89026-2928-483f-b05c-4fd720e55dbe"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{price_final}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="1059" y="0" width="97" height="34" uuid="2f778a1e-e248-46a4-9a9a-ff55101ec60f"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{payment_type}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="959" y="0" width="100" height="34" uuid="cb4781fc-41a6-4680-a174-9464d9d2dec6"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{pickup_time}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="1156" y="0" width="107" height="34" uuid="5be6e801-108f-4cd4-988d-0a5bd78c47ed"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{promotion_code}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="1263" y="0" width="97" height="34" uuid="ae862577-84de-4093-8c70-648abebb116e"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{datasource_name}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="1360" y="0" width="120" height="34" uuid="571b2e97-c172-4708-bbbd-81f042ca5a37"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{username}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="36">
+			<frame>
+				<reportElement x="167" y="8" width="100" height="20" uuid="dcf59bc4-e866-4012-a47b-c138988b5930"/>
+			</frame>
+			<frame>
+				<reportElement x="0" y="0" width="1480" height="36" backcolor="#CCCCCC" uuid="ce0d33e3-af53-4602-88fa-c1de690a2e4f"/>
+				<staticText>
+					<reportElement x="19" y="8" width="100" height="20" backcolor="#CCCCCC" uuid="27c07b80-70fc-4a22-bf4a-e3a361b91f91"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[จำนวนทั้งหมด :]]></text>
+				</staticText>
+				<textField evaluationTime="Report">
+					<reportElement x="133" y="8" width="100" height="20" backcolor="#CCCCCC" uuid="e6be2175-0ec3-4f46-bf42-26927601361d"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+</jasperReport>

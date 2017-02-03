@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="รายงาน" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="46e704f3-2b16-46a9-8dd1-4224c70e4acf">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="style1" isDefault="true" mode="Opaque">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#CCCCCC" fill="Solid"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="StartDate" class="java.sql.Timestamp"/>
+	<parameter name="EndDate" class="java.sql.Timestamp"/>
+	<queryString>
+		<![CDATA[SELECT t1.promotion_code,
+count(t1.id) AS number_use,
+t2.id AS promotion_id,
+t2.id
+FROM app_service t1
+LEFT JOIN app_promotion t2 ON t2.name = t1.promotion_code
+WHERE date(t1.pickup_time) BETWEEN $P{StartDate} AND $P{EndDate}
+AND t1.promotion_code IS NOT NULL
+AND t1.promotion_code != ""
+AND t1.status IN('F','H','J')
+GROUP BY t1.promotion_code
+ORDER BY number_use DESC]]>
+	</queryString>
+	<field name="promotion_code" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="number_use" class="java.lang.Long"/>
+	<field name="promotion_id" class="java.lang.Integer"/>
+	<field name="id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="46" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="46" forecolor="#FFFFFF" backcolor="#6666FF" uuid="9adb2b26-0b73-490c-bdba-b6a7ad657619"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROMOTION SUMMARY]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="34" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="152" height="34" forecolor="#FFFFFF" backcolor="#666666" uuid="81f852e9-09b2-4e6c-bada-bf78e9ee83aa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROMOTION CODE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="152" y="0" width="205" height="34" forecolor="#FFFFFF" backcolor="#000000" uuid="f49ec2a9-03e3-4a51-b785-1375dd8ef49d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NUMBER OF  USE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="357" y="0" width="198" height="34" forecolor="#FFFFFF" backcolor="#666666" uuid="11a6a287-7568-4f7b-a8ed-92e535ab5b8c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[OPEN LIST]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="39" splitType="Stretch">
+			<frame>
+				<reportElement style="style1" x="0" y="0" width="555" height="39" uuid="ed5c87a5-58a7-4c18-a915-9db105b3093f"/>
+				<textField isBlankWhenNull="true" hyperlinkType="Reference">
+					<reportElement x="0" y="0" width="153" height="39" uuid="efd39720-ed9b-4518-965a-48b2bb8af9ea"/>
+					<textElement verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{promotion_code}]]></textFieldExpression>
+					<hyperlinkReferenceExpression><![CDATA["https://www.udrinkidrive.co.th/index.php?r=promotion/view&id=" + $F{promotion_code}]]></hyperlinkReferenceExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="153" y="0" width="204" height="39" uuid="8b0b3fcc-58b4-47c9-9826-07f2cfa2cf05"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{number_use}]]></textFieldExpression>
+				</textField>
+				<textField hyperlinkType="Reference">
+					<reportElement x="359" y="0" width="196" height="39" uuid="92a38180-1ed9-4a8b-9048-9c44e8e6cb60"/>
+					<box>
+						<pen lineStyle="Solid"/>
+						<topPen lineStyle="Solid"/>
+						<leftPen lineStyle="Solid"/>
+						<bottomPen lineStyle="Solid"/>
+						<rightPen lineStyle="Solid"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="false" isUnderline="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+					<hyperlinkReferenceExpression><![CDATA["https://www.udrinkidrive.co.th/index.php?r=promotion/view&id=" + $F{id}]]></hyperlinkReferenceExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>
